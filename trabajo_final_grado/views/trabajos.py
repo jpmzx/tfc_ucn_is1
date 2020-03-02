@@ -78,5 +78,5 @@ class DeleteTrabajoView(View):
             messages.error(request, 'Trabajo final no encontrado')
         else:
             trabajo.delete()
-            messages.success(request, 'Trabajo final de grado creado correctamente')
+            messages.success(request, 'Trabajo final de grado eliminado correctamente')
         return HttpResponseRedirect(reverse('trabajo_final_grado:index'))
