@@ -1,0 +1,181 @@
+{% load widget_tweaks %}
+{% load base_tags %}
+{% comment %} <script>console.log("{{field.html_name }} - {{field.field.widget.attrs.role_matrix|escapejs }}")</script> {% endcomment %}
+{% if type == 'back-button' %}
+    <a href="{% if back_url  %}{% url back_url  %}{% else %}{{ request.META.HTTP_REFERER }}{% endif %}" class="fa fa-chevron-left text-muted" data-html="true" data-placement="bottom" data-toggle="tooltip" data-original-title="Volver"></a>
+{% else %}
+    {% if form_type != "inline" %}
+        <div class="form-group {% if field.errors %} has-error{% endif %}{% if hide %} hide{% endif %}">
+    {% endif %}
+
+    {% if not no_label %}
+        {% if form_type == 'vertical' or form_type == 'inline' %}
+            <label for="{{ field.auto_id }}">
+        {% else %}
+            <label class="text-right control-label" for="{{ field.auto_id }}">
+        {% endif %}
+        {% if not check_type == 'line' %}
+            {% if field.field.help_text and not type == 'check' and not type == 'radio' %}
+                <i class="fa fa-question-circle text-muted" title="{{ field.field.help_text }}" data-html="true" data-placement="top" data-toggle="tooltip" ></i>
+            {% elif not help_text is None and not type == 'check' and not type == 'radio' %}
+                <i class="fa fa-question-circle text-muted" title="{{ help_text }}" data-html="true" data-placement="top" data-toggle="tooltip" ></i>
+            {% elif field.field.help_text and check_type == 'multi-switch' %}
+                <i class="fa fa-question-circle text-muted" title="{{ field.field.help_text }}" data-html="true" data-placement="top" data-toggle="tooltip" ></i>
+            {% endif %}
+
+            {% if label_set is None %}{{field.label}}{% else %}{{label_set}}{% endif %}{% if field.field.required or type == 'choices_modal' or show_required %}<span class="text-required">*</span>{% endif %}
+        {% endif %}
+
+        </label>
+    {% endif %}
+        {% if form_type == 'vertical' %}
+            <div>
+        {% elif form_type == 'inline' %}
+            <!-- nothing -->
+        {% else %}
+            <div>
+        {% endif %}
+
+            {% if not addon is None  %}
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa {{addon}}"></i>{% if addon == 'fa-phone' %} +57{% endif %}
+                    </div>
+            {% endif %}
+            {% if type == 'label' or field.field.widget.attrs.role_matrix.readonlyhidden or readonly_internal %}
+                {% comment %} <script>console.log("{{field.html_name }} - {{field.field.widget.attrs.role_matrix|escapejs }} - {{values_display}}")</script> {% endcomment %}
+                <div class="form-control" style="background-color: #e8e8e85e;{% if type == 'textarea' %}height: auto;{% endif %}">{{ values_display|default:field.value|valdateformat|default:'No especificado' }}</div>{% comment %} {% format_values_display with field_value=field.value values_display=values_display %} {% endcomment %}
+                <input type="hidden" name="{{ field.html_name }}" id="{{ field.auto_id }}" value="{{ field.value|default:'' }}">
+            {% elif type == 'date' %}
+                <input type="text" class="input-datepicker form-control" autocomplete="off" name="{{ field.html_name }}" id="{{ field.auto_id }}" {{ attr }} value="{% if field.value|field_type == 'str' %}{{ field.value }}{% else %}{{ field.value|date:'d/m/Y' }}{% endif %}" data-type="{{ field.value|field_type }}" placeholder="dd/mm/aaaa" {% if field.field.required %}required{% endif %}>
+            {% elif type == 'check' %}
+                {% if check_type == 'line'%}
+                    <input type="checkbox" class="input-icheck" name="{{ field.html_name }}" id="{{ field.auto_id }}" {{ attr }} {% if field.value %}checked{% endif %} {% if field.field.required %}required{% endif %} {% if field.field.disabled %}disabled{% endif %}>
+                    <label for="{{ field.auto_id }}">{% if label_set is None %}{{field.label}}{% else %}{{label_set}}{% endif %}</label>
+                {% elif check_type == 'multi-switch'%}
+                    <div class="row col-md-12">
+                        <input type="checkbox" name="{{ field.html_name }}" id="{{ field.auto_id }}" class="multi-switch hide" {{ attr }} initial-value="1" {{ field.value|yesno:"checked,checked,''" }} checked-value="2" unchecked-value="3" value="{{ field.value|yesno:"2,3,1" }}" {% if field.field.required %}required{% endif %} {% if field.field.disabled %}disabled{% endif %}>
+                    </div>
+                {% else %}
+                    <input type="checkbox" name="{{ field.html_name }}" id="{{ field.auto_id }}" {{ attr }} {% if field.value %}checked{% endif %} {% if field.field.required %}required{% endif %} {% if field.field.disabled %}disabled{% endif %}>
+                {% endif %}
+            {% elif type == 'radio' %}
+                <input type="radio" name="{{ field.html_name }}" id="{{ field.auto_id }}">
+            {% elif type == 'disabled' %}
+                {{ field|add_class:"non-textarea form-control" | attr:"disabled"}}
+            {% elif type == 'readonly' %}
+                    {{ field|add_class:"non-textarea form-control" | attr:"readonly"}}
+            {% elif type == 'multi-select2' %}
+                {{ field|add_class:"input-select2" | attr:"multiple"}}
+            {% elif type == 'time' %}
+                <div class="bootstrap-timepicker input-group">
+                    <input type="text" class="form-control input-timepicker" name="{{ field.html_name }}"  id="{{ field.auto_id }}"  value="{{ field.value }}" {% if field.field.required %}required{% endif %} >
+                    <div class="input-group-addon">
+                        <i class="fa fa-clock-o"></i>
+                    </div>
+                </div>
+            {% elif type == 'datetime' %}
+                <div class="input-group date datetimepicker">
+                    <input type="text" class="form-control" name="{{ field.html_name }}"  id="{{ field.auto_id }}"  value="{{ field.value }}" {% if field.field.required %}required{% endif %} >
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+            {% elif type == 'file' %}
+                {% if field.initial %}
+                    <a href="{{ field.initial.url }}" target="blank" title="Ver archivo adjunto">
+                        <i class="fa fa-paperclip fa-2x"></i>
+                    </a>
+                {% endif %}
+                {{ field|add_class:"form-control form-file" }}
+            {% elif type == 'select2' %}
+              {% with attr as attrs %}
+                {{ field|add_class:"input-select2 form-control"|attr:attrs }}
+              {% endwith %}
+            {% elif type == 'array' %}
+
+                <table class="table table-condensed table-hover">
+                    <tbody>
+
+                        {% for value in field.initial %}
+
+                            <tr id="{{ field.html_name}}_{{ forloop.counter }}">
+                                <td class="col-md-11">
+                                    <span>{{ value }}</span>
+                                    <input type="hidden" name="{{ field.html_name }}" value="{{ value }}">
+                                </td>
+                                <td class="col-md-1">
+                                    <button type="button" class="btn btn-xs btn-default btn-array-field-remove" data-row-array-field="#{{ field.html_name}}_{{ forloop.counter }}">
+                                        <span class="fa fa-remove fa-lg text-red"></span>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        <tr>
+                                <td>
+                                {# {% if form_functions.functions.field.widget.input_type == 'select' %} #}
+
+                                    {# {{ field|add_class:"input-select2 form-control" }} #}
+
+                                    <input type="text" class="form-control" name="{{ field.html_name }}_array_field_add">
+
+                                {# {% endif %} #}
+
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-xs btn-default btn-array-field-add" data-field-name='{{ field.html_name }}'>
+                                    <span class="fa fa-plus fa-lg text-green"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            {% elif type == 'choices_modal' %}
+
+                <div class="input-group">
+                    {{ field|add_class:"form-control"|attr:"readonly"}}
+                    <span class="input-group-btn">
+                        <button class="btn btn-default {% if field.field.widget.attrs.disabled %}disabled{% endif %}" type="button" data-toggle="modal" data-target="#id_modal_{{ field.html_name }}" {% if field.field.widget.attrs.disabled %}disabled{% endif %} id="button_modal_{{ field.html_name }}">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </span>
+                </div>
+
+            {% elif type == 'textarea' %}
+
+                <textarea class="form-control" rows="{{ rows }}" name="{{ field.html_name }}" id="{{ field.auto_id }}" placeholder="{{ field.help_text }}" {% if field.field.required %}required{% endif %}>{% if field.value %}{{ field.value }}{% endif %}</textarea>
+
+            {% else %}
+              {% with attr as attrs %}
+                {{ field|add_class:"non-textarea form-control"|attr:attrs }}
+              {% endwith %}
+            {% endif %}
+
+            {% if not addon is None %}
+            </div>
+            {% endif %}
+
+            {% if field.field.help_text and type == 'check' and check_type != 'multi-switch' or type == 'radio' %}
+
+                <span class="help-text">{{ field.field.help_text }}</span>
+
+            {% endif %}
+
+        {% if form_type != 'inline' %}
+            </div>
+        {% endif %}
+
+        {% for error in field.errors %}
+            <div class="text-danger">- {{ error }}</div>
+        {% endfor %}
+
+        {% if form_type != 'inline' %}
+            </div>
+
+        {% endif %}
+
+{% endif %}

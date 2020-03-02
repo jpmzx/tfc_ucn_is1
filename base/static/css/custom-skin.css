@@ -1,0 +1,10 @@
+
+
+:root {
+    --main-dark-color: #194278;
+    --main-light-color: #59c1ee;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: var(-main-light-color) !important;
+}

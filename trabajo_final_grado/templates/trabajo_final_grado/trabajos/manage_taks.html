@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block header_title %} Trabajo final de grado {% endblock header_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tarea 1: DEFINICIÓN DEL PROBLEMA ({{ trabajo.get_estado_tarea_uno_display }}{% if trabajo.fecha_gestion_tarea_uno %} - Fecha: {{ trabajo.fecha_gestion_tarea_uno|date:'d/m/Y h:i a' }}{% endif %})</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Diligencie los siguientes campos:</p>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% include "partials/field.html" with field=form.planteamiento_del_problema %}
+                                {% include "partials/field.html" with field=form.identificacion_del_problema %}
+                                {% include "partials/field.html" with field=form.antecedentes_del_problema %}
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary float-right" >Guardar tarea</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Información de trabajo final</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <b>Nombre del trabajo: </b> <br>
+                            {{trabajo.nombre_trabajo}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <b>Descripción: </b> <br>
+                            {{trabajo.descripcion}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <b>Equipo de trabajo: </b> <br>
+                            {{trabajo.equipo_de_trabajo|linebreaks}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <b>Estado: </b> <br>
+                            {{trabajo.get_estado_display }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <b>Fecha de creación: </b> <br>
+                            {{ trabajo.fecha_creacion|date:'d/m/Y h:i a' }}
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+{% endblock %}

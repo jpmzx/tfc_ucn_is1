@@ -1,0 +1,50 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'index' %}" class="brand-link">
+        <img src="https://www.ucn.edu.co/exportes/ucn.ico" alt="Talenta logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light"> TFC-UCN</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="{% url 'trabajo_final_grado:index' %}" class="nav-link active">
+                        <i class="fas fa-clipboard-list nav-icon"></i>
+                        <p>Trabajo final de grado</p>
+                    </a>
+                </li>
+                {% comment %}
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-globe-americas"></i>
+                        <p>
+                            Gestión de regiones
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'trabajo_final_grado:index' %}" class="nav-link active">
+                                <i class="fas fa-map-marked-alt nav-icon"></i>
+                                <p>Regiones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-map-pin nav-icon"></i>
+                                <p>Municipios</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% endcomment %}
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

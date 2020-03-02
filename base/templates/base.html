@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#194278">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#194278">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="#194278">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="icon" href="https://www.ucn.edu.co/exportes/ucn.ico" sizes="32x32">
+  <title>{% block page_title %}UCN{% endblock page_title %}</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'AdminLTE-3.0.2/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'AdminLTE-3.0.2/dist/css/adminlte.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/custom-skin.css' %}">
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  {% include 'partials/navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  {% include 'partials/sidebar.html' %}
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+
+      {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>¡Éxito!</strong> {{ message|safe }}
+              </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>¡Error!</strong> {{ message|safe }}
+              </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>¡Advertencia!</strong> {{ message|safe }}
+              </div>
+            {% else %}
+              <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Mensaje:</strong> {{ message|safe }}
+              </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">{% block header_title %}{% endblock header_title %}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            {% block breadcrumb %}
+            {% endblock breadcrumb %}
+            <!-- <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Starter Page</li>
+            </ol> -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      {% block content %}
+      {% endblock content %}
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+
+    <span>
+      <p><b>Ingeniería de Software - Ingeniería de Software I (Entregable 2)</b>
+        <br>
+        Equipo de trabajo:
+      </p>
+      <ul>
+        <li>JUAN CARLOS DURANGO CORREA</li>
+        <li>JUAN DAVID MARTINEZ SANTAMARIA</li>
+        <li>JUAN PABLO MARTINEZ ZABALA</li>
+        <li>OMAR CORTÉS MEDINA</li>
+        <li>ANA MARIA MEJIA GUZMAN</li>
+      </ul>
+    </span>
+    
+    
+
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      dev
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; {% now "Y" %} <a href="https://www.ucn.edu.co/" target="blank_">UCN</a>.</strong> Todos los derechos reservados.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+  <!-- jQuery -->
+  <script src="{% static 'AdminLTE-3.0.2/plugins/jquery/jquery.min.js' %}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static 'AdminLTE-3.0.2/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'AdminLTE-3.0.2/dist/js/adminlte.min.js' %}"></script>
+
+  <script src="{% static 'AdminLTE-3.0.2/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+</body>
+</html>

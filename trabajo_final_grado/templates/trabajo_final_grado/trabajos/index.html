@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block header_title %} Trabajo final de grado {% endblock header_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-8 col-sm-12"">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de trabajos finales de grado</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3 col-lg-2">
+                            <a href="{% url 'trabajo_final_grado:create' %}" class="btn btn-block bg-gradient-primary"><i class="fas fa-plus"></i> Nuevo trabajo de grado</a>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre de trabajo</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Equipo de trabajo</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Fecha creación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trabajo in trabajos %}
+                            <tr>
+                                <th scope="row">{{ trabajo.id }}</th>
+                                <td>{{ trabajo.nombre_trabajo }}</td>
+                                <td>{{ trabajo.descripcion }}</td>
+                                <td>{{ trabajo.equipo_de_trabajo|linebreaks }}</td>
+                                <td>{{ trabajo.get_estado_display }}</td>
+                                <td>{{ trabajo.fecha_creacion|date:'d/m/Y h:i a' }}</td>
+                                <td>
+                                    <a href="{% url 'trabajo_final_grado:manage_tasks' trabajo.id %}" class="btn btn-xs bg-gradient-info"><i class="fas fa-edit"></i> Gestionar tareas</a>
+                                    <a href="{% url 'trabajo_final_grado:delete' trabajo.id %}" class="btn btn-xs bg-gradient-danger"><i class="fas fa-times"></i> Eliminar</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+{% endblock %}

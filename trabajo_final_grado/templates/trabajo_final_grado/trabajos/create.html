@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header_title %} Trabajo final de grado {% endblock header_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Crear trabajo finale de grado</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Para crear un trabajo final de grado por favor diligencie los siguientes campos:</p>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% include "partials/field.html" with field=form.nombre_trabajo %}
+                                {% include "partials/field.html" with field=form.descripcion %}
+                                {% include "partials/field.html" with field=form.equipo_de_trabajo %}
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary float-right" >Crear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+{% endblock %}
